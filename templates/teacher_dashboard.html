@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ branch|capitalize }} Dashboard</title>
+</head>
+<body>
+    <h2>{{ branch|capitalize }} - Teacher Dashboard</h2>
+    <form method="POST">
+        <label>Select Student:</label>
+        <select name="student">
+            {% for student in students %}
+                <option value="{{ student }}">{{ student }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Marks:</label>
+        <input type="text" name="marks">
+
+        <label>Attendance:</label>
+        <input type="text" name="attendance">
+
+        <button type="submit">Update</button>
+    </form>
+    
+</body>
+</html>

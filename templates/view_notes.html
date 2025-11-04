@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>View Notes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #667eea;
+      --secondary: #764ba2;
+      --bg: #f3f4f6;
+      --white: #ffffff;
+      --text: #1f2937;
+      --accent: #4a90e2;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+    }
+
+    .navbar {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .info {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .navbar .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      margin-left: 20px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+
+    .navbar .menu a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .container {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--text);
+      margin-bottom: 40px;
+    }
+
+    .subject-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+
+    .subject-card h2 {
+      color: var(--primary);
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .module {
+      margin-bottom: 20px;
+    }
+
+    .module h4 {
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    li a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    li a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .no-files {
+      color: #777;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .navbar .menu {
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="info">
+      Notes – {{ branch.upper() }} | Year {{ year }} | Semester {{ semester }}
+    </div>
+    <div class="menu">
+    <a href="{{ url_for('student_dashboard') }}">← Back to Dashboard</a>
+
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>Available Notes</h1>
+
+    {% if notes %}
+      {% for subject, modules in notes.items() %}
+        <div class="subject-card">
+          <h2>📘 {{ subject }}</h2>
+          {% for module, files in modules.items() %}
+            <div class="module">
+              <h4>📑 {{ module }}</h4>
+              {% if files %}
+                <ul>
+                  {% for file in files %}
+                    <li>
+                      <a href="{{ url_for('static', filename='notes/' ~ branch ~ '/year' ~ year ~ '_sem' ~ semester ~ '/' ~ subject ~ '/' ~ module ~ '/' ~ file) }}"
+                         target="_blank">📄 {{ file }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                <p class="no-files">No files uploaded in {{ module }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p style="text-align: center; font-size: 18px;">No notes available for this semester.</p>
+    {% endif %}
+  </div>
+
+</body>
+</html>

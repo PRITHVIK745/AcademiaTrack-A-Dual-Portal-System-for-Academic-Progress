@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+
+  <!-- Cache Control -->
+  <meta http-equiv="Cache-Control" content="no-store" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f3f4f6;
+    }
+
+    .navbar {
+      background: linear-gradient(to right, #667eea, #764ba2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .navbar .info {
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .navbar .menu {
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar .menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: 0.3s;
+      padding: 8px 14px;
+      border-radius: 8px;
+    }
+
+    .navbar .menu a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .content {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .content h1 {
+      color: #333;
+      font-size: 28px;
+    }
+
+    .content p {
+      color: #555;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="info">
+      <div><strong>{{ name }}</strong></div>
+      <div><strong>USN:</strong> {{ usn }}</div>
+    </div>
+    <div class="menu">
+      <a href="{{ url_for('view_marks') }}">Academics</a>
+      <a href="{{ url_for('view_notes') }}">Notes</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Welcome to Your Dashboard</h1>
+    <p>Use the menu above to view your academic performance and download notes.</p>
+  </div>
+
+</body>
+</html>

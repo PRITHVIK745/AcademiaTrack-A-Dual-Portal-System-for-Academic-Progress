@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Notes - {{ branch|capitalize }} Y{{ year }}S{{ semester }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 30px; }
+    h2 { text-align: center; color: #333; }
+    form { background: white; padding: 20px; max-width: 600px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    label, select, input { display: block; width: 100%; margin-bottom: 15px; }
+    input[type="file"] { padding: 10px; }
+    button { background: #667eea; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #5566dd; }
+    a { display: inline-block; margin-top: 20px; text-decoration: none; color: #667eea; }
+  </style>
+</head>
+<body>
+
+  <h2>Upload Notes ({{ branch|capitalize }} - Sem {{ semester }})</h2>
+
+  <form method="POST" enctype="multipart/form-data">
+    <label>Subject</label>
+    <select name="subject" required>
+      {% for sub in subjects %}
+        <option value="{{ sub[0] }}">{{ sub[1] }} ({{ sub[0] }})</option>
+      {% endfor %}
+    </select>
+
+    <label>Module</label>
+    <select name="module" required>
+      {% for m in modules %}
+        <option value="{{ m }}">{{ m }}</option>
+      {% endfor %}
+    </select>
+
+    <label>Upload File</label>
+    <input type="file" name="note" required>
+
+    <button type="submit">Upload Note</button>
+  </form>
+
+  <div style="text-align:center;">
+    <a href="{{ url_for('branch_dashboard', branch=branch) }}">← Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

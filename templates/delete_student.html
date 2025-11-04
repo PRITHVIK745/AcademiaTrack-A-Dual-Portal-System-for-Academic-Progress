@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Student</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f0f4fa;
+        }
+
+        .navbar {
+            background-color: #e0f0ff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0066cc;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2, h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 8px 0 16px 0;
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #ef4444;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #dc2626;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin-top: 20px;
+            padding-left: 20px;
+            color: #444;
+        }
+
+        ul li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="title"><i class="fas fa-user-minus"></i> Delete Student</div>
+    </div>
+
+    <div class="container">
+        <h2>Delete a Student</h2>
+
+        <form method="POST">
+            <label>Student USN</label>
+            <input type="text" name="usn" required>
+
+            <label>Branch</label>
+            <select name="branch" required>
+                <option value="">-- Select Branch --</option>
+                <option value="csd">CSD</option>
+                <option value="aiml">AIML</option>
+                <option value="data_science">Data Science</option>
+                <option value="civil">Civil</option>
+                <option value="biomedical">Biomedical</option>
+            </select>
+
+            <button type="submit">Delete Student</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Back to Dashboard Button -->
+        <a href="{{ url_for('select_branch') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+
+        <h3>All Students</h3>
+        <ul>
+        {% for name, usn, branch, year, semester in students %}
+            <li>{{ name }} | USN: {{ usn }} | {{ branch.upper() }} - Year {{ year }} Sem {{ semester }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background: #f0f4fa;
+        }
+
+        .navbar {
+            background-color: #e0f0ff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0066cc;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        input, select {
+            padding: 10px;
+            margin: 8px 0 16px 0;
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin-top: 20px;
+            color: red;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="title"><i class="fas fa-user-plus"></i> Add Student</div>
+    </div>
+
+    <div class="container">
+        <h2>Enter Student Details</h2>
+
+        <form method="POST">
+            <label>Student Name (Username)</label>
+            <input type="text" name="name" required>
+
+            <label>Student USN (Password)</label>
+            <input type="text" name="usn" required>
+
+            <label>Branch</label>
+            <select name="branch" required>
+                <option value="">-- Select Branch --</option>
+                <option value="csd">CSD</option>
+                <option value="aiml">AIML</option>
+                <option value="data_science">Data Science</option>
+                <option value="civil">Civil</option>
+                <option value="biomedical">Biomedical</option>
+            </select>
+
+            <label>Year</label>
+            <select name="year" required>
+                <option value="">-- Select Year --</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+
+            <label>Semester</label>
+            <select name="semester" required>
+                <option value="">-- Select Semester --</option>
+                {% for i in range(1, 8) %}
+                <option value="{{ i }}">Semester {{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Add Student</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <!-- Back to Dashboard Button -->
+        <a href="{{ url_for('select_branch') }}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+
+</body>
+</html>

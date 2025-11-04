@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Students - {{ branch|capitalize }} Year {{ year }} Sem {{ semester }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .container {
+      max-width: 500px;
+      background: white;
+      padding: 30px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+    }
+    input[type=file], button {
+      padding: 12px;
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #5566dd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload CSV for {{ branch|capitalize }} - Year {{ year }}, Semester {{ semester }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" accept=".csv" required>
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+</body>
+</html>

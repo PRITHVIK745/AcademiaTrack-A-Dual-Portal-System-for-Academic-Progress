@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ branch|capitalize }} - Year {{ year }} Sem {{ semester }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4da6ff;
+      --primary-dark: #1e90ff;
+      --background: #eef6fb;
+      --card-bg: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.08);
+      --border: #d0e2f2;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      margin: 0;
+      padding: 80px 20px 20px;
+      color: #333;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--primary);
+      color: white;
+      padding: 16px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px var(--shadow);
+      z-index: 1000;
+    }
+
+    .navbar strong {
+      font-size: 18px;
+      color: white;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      padding: 10px 20px;
+      background: white;
+      color: var(--primary-dark);
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s ease, color 0.3s;
+    }
+
+    .navbar a:hover {
+      background: #e6f3ff;
+      color: #0077cc;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 26px;
+      color: #1e3a5f;
+      margin-bottom: 30px;
+    }
+
+    .ia-select {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .ia-select select {
+      padding: 10px 14px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      width: 200px;
+      transition: border 0.3s;
+    }
+
+    .ia-select select:focus {
+      outline: none;
+      border-color: var(--primary-dark);
+    }
+
+    .form-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 0 auto 30px;
+      max-width: 850px;
+      box-shadow: 0 6px 12px var(--shadow);
+    }
+
+    .form-block h3 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #dbe9f5;
+      padding-bottom: 6px;
+    }
+
+    label {
+      display: inline-block;
+      width: 180px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input[type="number"] {
+      padding: 6px 10px;
+      width: 70px;
+      border-radius: 5px;
+      border: 1px solid #bcdff5;
+      margin-right: 15px;
+      background: #f8fbfd;
+      font-size: 14px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--primary-dark);
+      outline: none;
+      box-shadow: 0 0 5px rgba(77, 166, 255, 0.3);
+    }
+
+    input[readonly] {
+      background: #e6f3ff;
+      color: #666;
+      cursor: not-allowed;
+    }
+
+    .form-buttons {
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 18px;
+      background: #4da6ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 10px;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #1e90ff;
+    }
+
+    button[name="action"][value="reset"] {
+      background: #ff6b6b;
+    }
+
+    button[name="action"][value="reset"]:hover {
+      background: #e63946;
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .form-block {
+        padding: 18px;
+      }
+
+      label {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+
+      input[type="number"] {
+        width: 100px;
+        margin-top: 5px;
+      }
+    }
+  </style>
+
+  <script>
+    let isDirty = false;
+    function markDirty() {
+      isDirty = true;
+    }
+
+    window.addEventListener("beforeunload", function (e) {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+
+    function confirmNavigation(event) {
+      if (isDirty) {
+        const confirmLeave = confirm("You have unsaved changes. Are you sure you want to leave?");
+        if (!confirmLeave) {
+          event.preventDefault();
+        }
+      }
+    }
+  </script>
+  
+
+</head>
+<body>
+
+  <div class="navbar">
+    <strong>{{ branch|capitalize }} – Year {{ year }} Sem {{ semester }}</strong>
+    <a href="{{ url_for('branch_dashboard', branch=branch) }}" onclick="confirmNavigation(event)">← Back to Dashboard</a>
+  </div>
+
+  <h1>{{ ia_type.upper() }} Marks & Attendance Entry</h1>
+
+  <div class="ia-select">
+    <form method="get" action="{{ url_for('branch_semester', branch=branch, year=year, semester=semester) }}">
+      <select name="ia_type" id="ia_type" onchange="this.form.submit()">
+        <option value="ia1" {% if ia_type == 'ia1' %}selected{% endif %}>IA1</option>
+        <option value="ia2" {% if ia_type == 'ia2' %}selected{% endif %}>IA2</option>
+        <option value="ia3" {% if ia_type == 'ia3' %}selected{% endif %}>IA3</option>
+      </select>
+    </form>
+  </div>
+
+  {% for student in students %}
+    <div class="form-block">
+      <h3>{{ student }}</h3>
+      <form method="POST">
+        <input type="hidden" name="student" value="{{ student }}">
+        <input type="hidden" name="ia_type" value="{{ ia_type }}">
+        {% for i in range(1, 7) %}
+          <div>
+            <label>{{ subjects[i-1][1] if i-1 < subjects|length else 'Subject ' ~ i }}</label>
+            Marks:
+            <input 
+              type="number" 
+              name="sub{{ i }}_marks" 
+              min="0" max="30"
+              value="{{ data[student]['sub' ~ i ~ '_' ~ ia_type] if data[student] and data[student]['sub' ~ i ~ '_' ~ ia_type] != None else '' }}"
+              {% if data[student] and data[student]['sub' ~ i ~ '_' ~ ia_type] != None %}readonly{% else %}oninput="markDirty()"{% endif %}>
+            Attendance:
+            <input 
+              type="number" 
+              name="sub{{ i }}_attended" 
+              min="0" max="30"
+              value="{{ data[student]['sub' ~ i ~ '_att' ~ ia_type[-1]] if data[student] and data[student]['sub' ~ i ~ '_att' ~ ia_type[-1]] != None else '' }}"
+              {% if data[student] and data[student]['sub' ~ i ~ '_' ~ ia_type] != None %}readonly{% else %}oninput="markDirty()"{% endif %}>
+          </div>
+        {% endfor %}
+        <div class="form-buttons">
+          <button type="submit" name="action" value="save">Save</button>
+          <button type="submit" name="action" value="reset">Reset</button>
+        </div>
+      </form>
+    </div>
+  {% endfor %}
+
+</body>
+</html>
